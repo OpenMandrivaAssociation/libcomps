@@ -1,0 +1,76 @@
+From 77317e014b3d0755c914a58c490a4de9cd10f99b Mon Sep 17 00:00:00 2001
+From: Neal Gompa (ニール・ゴンパ) <ngompa13@gmail.com>
+Date: Fri, 25 Sep 2015 08:29:06 -0400
+Subject: [PATCH] Add zlib as an explicit	dependency
+
+It appears that the inclusion of libxml2 doesn't necessarily mean
+that zlib will be included. Since libcomps depends on zlib functions,
+the build fails when zlib isn't being brought in for the build.
+
+This explicitly changes it to include zlib and ensure it is linked
+into the library at build-time.
+---
+ README.md                   | 1 +
+ libcomps.spec.in            | 1 +
+ libcomps/CMakeLists.txt     | 2 ++
+ libcomps/src/CMakeLists.txt | 1 +
+ 4 files changed, 5 insertions(+)
+
+diff --git a/README.md b/README.md
+index 23a0e3f..38796f3 100644
+--- a/README.md
++++ b/README.md
+@@ -16,6 +16,7 @@ for automatic build system:
+ 
+ for libcomps library:
+ 
++*   zlib    http://www.zlib.net/
+ *   libxml2 http://www.xmlsoft.org/
+ *   expat   http://expat.sourceforge.net/
+ *   gcc     http://gcc.gnu.org/
+diff --git a/libcomps.spec.in b/libcomps.spec.in
+index 22d54d2..09bab23 100644
+--- a/libcomps.spec.in
++++ b/libcomps.spec.in
+@@ -19,6 +19,7 @@ Group:          Development/Libraries
+ License:        GPLv2+
+ URL:            https://github.com/midnightercz/libcomps/
+ Source0:        https://github.com/midnightercz/libcomps/${SOURCE_URL_PATH}
++BuildRequires:  zlib-devel
+ BuildRequires:  libxml2-devel
+ BuildRequires:  check-devel
+ BuildRequires:  expat-devel
+diff --git a/libcomps/CMakeLists.txt b/libcomps/CMakeLists.txt
+index ee46ea8..3e31462 100644
+--- a/libcomps/CMakeLists.txt
++++ b/libcomps/CMakeLists.txt
+@@ -22,12 +22,14 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
+ FIND_LIBRARY(CHECK_LIBRARY NAMES check)
+ FIND_LIBRARY(EXPAT_LIBRARY NAMES expat)
+ 
++find_package(ZLIB REQUIRED)
+ find_package(LibXml2 REQUIRED)
+ find_package(EXPAT REQUIRED)
+ 
+ include_directories(${CHECK_INCLUDE_DIR})
+ include_directories(${EXPAT_INCLUDE_DIR})
+ include_directories(${LIBXML2_INCLUDE_DIR})
++include_directories(${ZLIB_INCLUDE_DIRS})
+ 
+ #add_custom_target(pytest DEPENDS pytest_run)
+ #add_custom_target(ctest DEPENDS test_comps_run test_parse_run)
+diff --git a/libcomps/src/CMakeLists.txt b/libcomps/src/CMakeLists.txt
+index e553d77..29ba08e 100644
+--- a/libcomps/src/CMakeLists.txt
++++ b/libcomps/src/CMakeLists.txt
+@@ -43,6 +43,7 @@ endforeach()
+ add_library(libcomps SHARED ${libcomps_SOURCES})
+ target_link_libraries(libcomps ${EXPAT_LIBRARY})
+ target_link_libraries(libcomps ${LIBXML2_LIBRARIES})
++target_link_libraries(libcomps ${ZLIB_LIBRARIES})
+ target_link_libraries(libcomps m)
+ set_target_properties(libcomps PROPERTIES OUTPUT_NAME "comps")
+ set_target_properties(libcomps PROPERTIES SOVERSION ${VERSION})
+-- 
+2.3.8 (Apple Git-58)
+

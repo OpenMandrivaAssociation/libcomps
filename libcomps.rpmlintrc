@@ -1,0 +1,2 @@
+# The build scripts don't generate proper multiple versions shlibs for now
+addFilter("E: incoherent-version-in-name")
