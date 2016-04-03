@@ -1,6 +1,7 @@
 %global commit d86995b748419bf6ca36f1c7f233727736d2efd5
 
 %bcond_without python3
+%bcond_with docs
 
 %define major 0
 %define libname %mklibname comps %{major}
@@ -50,7 +51,7 @@ Libraries for %{name}
 Summary:        Development files for libcomps library
 Group:          Development/C
 Provides:       %{name}-devel = %{EVRD}
-Requires:       %{libname}%{?_isa} = %{EVRD}
+Requires:       %{libname} = %{EVRD}
 
 %description -n %{devname}
 Development files for %{name}.
@@ -70,7 +71,7 @@ Summary:        Documentation files for python bindings libcomps library
 Group:          Documentation
 Requires:       python-%{name} = %{EVRD}
 BuildArch:      noarch
-BuildRequires:  python2-sphinx
+BuildRequires:  python-sphinx
 
 %description -n python-libcomps-doc
 Documentation files for python bindings libcomps library
@@ -79,9 +80,9 @@ Documentation files for python bindings libcomps library
 %package -n python-libcomps
 Summary:        Python 3 bindings for libcomps library
 Group:          Development/Python
-BuildRequires:  python3-devel
+BuildRequires:	pkgconfig(python3)
 Provides:       python3-%{name} = %{EVRD}
-Requires:       %{libname}%{?_isa} = %{EVRD}
+Requires:       %{libname} = %{EVRD}
 
 %description -n python-libcomps
 Python3 bindings for libcomps library
@@ -90,11 +91,11 @@ Python3 bindings for libcomps library
 %package -n python2-libcomps
 Summary:        Python 2 bindings for libcomps library
 Group:          Development/Python
-BuildRequires:  python2-devel
+BuildRequires:  pkgconfig(python2)
 %if %{without python3}
 Provides:       python-%{name} = %{EVRD}
 %endif
-Requires:       %{libname}%{?_isa} = %{EVRD}
+Requires:       %{libname} = %{EVRD}
 
 %description -n python2-libcomps
 Python2 bindings for libcomps library
@@ -114,8 +115,10 @@ export CC=gcc
 export CXX=g++
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=2 ../libcomps/
 %make
+%if %{with docs}
 make docs
 make pydocs
+%endif
 
 %if %{with python3}
 pushd ../py3
@@ -147,17 +150,19 @@ popd
 
 %files -n %{libname}
 %{_libdir}/libcomps.so.%{major}.*
-%doc README.md COPYING
 
 %files -n %{devname}
+%doc README.md COPYING
 %{_libdir}/libcomps.so
 %{_includedir}/*
 
+%if %{with docs}
 %files doc
 %doc build/docs/libcomps-doc/html
 
 %files -n python-libcomps-doc
 %doc build/src/python/docs/html
+%endif
 
 %files -n python2-libcomps
 %{python2_sitearch}/libcomps
@@ -166,4 +171,3 @@ popd
 %files -n python-libcomps
 %{python3_sitearch}/libcomps
 %endif
-
