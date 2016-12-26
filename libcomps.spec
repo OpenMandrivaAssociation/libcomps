@@ -1,5 +1,3 @@
-%global commit d86995b748419bf6ca36f1c7f233727736d2efd5
-
 %bcond_without python3
 %bcond_with docs
 
@@ -8,8 +6,8 @@
 %define devname %mklibname comps -d
 
 Name:           libcomps
-Version:        0.1.7
-Release:        2
+Version:        0.1.8
+Release:        1
 Summary:        Comps XML file manipulation library
 
 Group:          System/Libraries
@@ -19,7 +17,7 @@ URL:            https://github.com/rpm-software-management/libcomps
 #  git clone https://github.com/rpm-software-management/libcomps.git libcomps-%%{commit}
 #  git checkout %%{commit}
 #  tar czvf libcomps-%%{version}.tar.gz libcomps-%%{commit}
-Source0:        libcomps-0.1.7.tar.gz
+Source0:	https://github.com/rpm-software-management/libcomps/archive/%{name}-%{version}.tar.gz
 # Filters out rpmlint warnings
 Source1:        libcomps.rpmlintrc
 # Fixes zlib linking, from:
@@ -101,7 +99,7 @@ Requires:       %{libname} = %{EVRD}
 Python2 bindings for libcomps library
 
 %prep
-%setup -q -n %{name}-%{commit}
+%setup -qn %{name}-%{name}-%{version}
 %apply_patches
 
 %if %{with python3}
