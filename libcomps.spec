@@ -7,7 +7,7 @@
 
 Name:           libcomps
 Version:        0.1.8
-Release:        1
+Release:        3
 Summary:        Comps XML file manipulation library
 
 Group:          System/Libraries
@@ -23,6 +23,7 @@ Source1:        libcomps.rpmlintrc
 # Fixes zlib linking, from:
 # https://github.com/rpm-software-management/libcomps/pull/28
 Patch0:         libcomps-Add-zlib-as-an-explicit-dependency.patch
+Patch1:		libcomps-0.1.8-compile.patch
 BuildRequires:  pkgconfig(zlib)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(check)
