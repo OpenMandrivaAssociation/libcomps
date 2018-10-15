@@ -7,7 +7,7 @@
 
 Name:		libcomps
 Version:	0.1.8
-Release:	4
+Release:	5
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
@@ -33,7 +33,7 @@ BuildRequires:	cmake
 BuildRequires:	gcc, gcc-c++
 
 # prevent provides from nonstandard paths:
-%define __noautoprovfiles %{python3_sitearch}/.*\\.so\\|%{python2_sitearch}/.*\\.so
+%define __provides_exclude_from ^(%{python2_sitearch}/.*\\.so\\|%{python3_sitearch}/.*\\.so)$
 
 %description
 Libcomps is library for structure-like manipulation with content of
@@ -100,8 +100,7 @@ Requires:	%{libname} = %{EVRD}
 Python2 bindings for libcomps library.
 
 %prep
-%setup -qn %{name}-%{name}-%{version}
-%autopatch -p1
+%autosetup -n %{name}-%{name}-%{version} -p1
 
 %if %{with python3}
 rm -rf py3
@@ -125,7 +124,6 @@ pushd ../py3
 %make_build
 popd
 %endif
-
 
 %check
 pushd ./build
