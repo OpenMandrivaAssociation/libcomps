@@ -100,7 +100,7 @@ Requires:	%{libname} = %{EVRD}
 Python2 bindings for libcomps library.
 
 %prep
-%autosetup -n %{name}-%{name}-%{version} -p1
+%autosetup -n %{name}-%{version} -p1
 
 %if %{with python3}
 rm -rf py3
