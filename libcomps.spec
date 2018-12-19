@@ -6,8 +6,8 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.8
-Release:	6
+Version:	0.1.9
+Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
@@ -111,6 +111,7 @@ mkdir py3
 # Does not build with clang
 export CC=gcc
 export CXX=g++
+
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=2 ../libcomps/
 %make_build
 %if %{with docs}
