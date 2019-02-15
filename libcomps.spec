@@ -6,7 +6,7 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.9
+Version:	0.1.10
 Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
