@@ -6,7 +6,7 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.10
+Version:	0.1.11
 Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
@@ -29,8 +29,6 @@ BuildRequires:	pkgconfig(check)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(icu-i18n)
 BuildRequires:	cmake
-# Currently, libcomps will not build with clang
-BuildRequires:	gcc, gcc-c++
 
 # prevent provides from nonstandard paths:
 %define __provides_exclude_from ^(%{python2_sitearch}/.*\\.so\\|%{python3_sitearch}/.*\\.so)$
@@ -108,10 +106,6 @@ mkdir py3
 %endif
 
 %build
-# Does not build with clang
-export CC=gcc
-export CXX=g++
-
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=2 ../libcomps/
 %make_build
 %if %{with docs}
