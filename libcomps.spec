@@ -26,6 +26,10 @@ BuildRequires:	pkgconfig(check)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(icu-i18n)
 BuildRequires:	cmake
+%if %{with docs}
+BuildRequires:	doxygen
+BuildRequires:	graphviz
+%endif
 
 # prevent provides from nonstandard paths:
 %define __provides_exclude_from ^(%{python2_sitearch}/.*\\.so\\|%{python3_sitearch}/.*\\.so)$
@@ -50,6 +54,7 @@ Requires:	%{libname} = %{EVRD}
 %description -n %{devname}
 Development files for %{name}.
 
+%if %{with docs}
 %package doc
 Summary:	Documentation files for libcomps library
 Group:		Documentation
@@ -69,6 +74,7 @@ BuildRequires:	python-sphinx
 
 %description -n python-libcomps-doc
 Documentation files for python bindings libcomps library.
+%endif
 
 %if %{with python3}
 %package -n python-libcomps
@@ -103,7 +109,12 @@ mkdir py3
 %endif
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=2 ../libcomps/
+%cmake \
+	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+%if %{without docs}
+	-DENABLE_DOCS=OFF \
+%endif
+	-DPYTHON_DESIRED:STRING=2 ../libcomps/
 %make_build
 %if %{with docs}
 make docs
