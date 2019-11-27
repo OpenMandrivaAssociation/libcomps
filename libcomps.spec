@@ -6,7 +6,7 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.11
+Version:	0.1.12
 Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
@@ -111,30 +111,30 @@ make pydocs
 %endif
 
 %if %{with python3}
-pushd ../py3
+cd ../py3
 %cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=3 ../../libcomps/
 %make_build
-popd
+cd -
 %endif
 
 %check
-pushd ./build
+cd ./build
 make test
-popd
+cd -
 %if %{with python3}
-pushd ./py3/build
+cd ./py3/build
 make pytest
-popd
+cd -
 %endif
 
 %install
-pushd ./build
+cd ./build
 %make_install
-popd
+cd -
 %if %{with python3}
-pushd ./py3/build
+cd ./py3/build
 %make_install
-popd
+cd -
 %endif
 
 %files -n %{libname}
