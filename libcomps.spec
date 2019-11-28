@@ -114,7 +114,7 @@ mkdir py3
 %if %{without docs}
 	-DENABLE_DOCS=OFF \
 %endif
-	-DPYTHON_DESIRED:STRING=2 ../libcomps/ || cat build/CMakeFiles/CMakeOutput.log && exit 1
+	-DPYTHON_DESIRED:STRING=2 ../libcomps/ || cat /builddir/build/BUILD/libcomps-0.1.12/build/CMakeFiles/CMakeOutput.log && exit 1
 
 %make_build
 %if %{with docs}
