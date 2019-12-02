@@ -1,4 +1,4 @@
-%bcond_without python3
+%bcond_without python2
 %bcond_with docs
 
 %define major 0
@@ -76,7 +76,6 @@ BuildRequires:	python-sphinx
 Documentation files for python bindings libcomps library.
 %endif
 
-%if %{with python3}
 %package -n python-libcomps
 Summary:	Python 3 bindings for libcomps library
 Group:		Development/Python
@@ -86,26 +85,27 @@ Requires:	%{libname} = %{EVRD}
 
 %description -n python-libcomps
 Python3 bindings for libcomps library.
-%endif
 
+%if %{with python2}
 %package -n python2-libcomps
 Summary:	Python 2 bindings for libcomps library
 Group:		Development/Python
 BuildRequires:	pkgconfig(python2)
-%if %{without python3}
+%if %{without python2}
 Provides:	python-%{name} = %{EVRD}
 %endif
 Requires:	%{libname} = %{EVRD}
 
 %description -n python2-libcomps
 Python2 bindings for libcomps library.
+%endif
 
 %prep
 %autosetup -n %{name}-%{version} -p1
 
-%if %{with python3}
-rm -rf py3
-mkdir py3
+%if %{with python2}
+rm -rf py2
+mkdir py2
 %endif
 
 %build
@@ -114,7 +114,8 @@ mkdir py3
 %if %{without docs}
 	-DENABLE_DOCS=OFF \
 %endif
-	-DPYTHON_DESIRED:STRING=2 ../libcomps/ || cat /builddir/build/BUILD/libcomps-0.1.12/build/CMakeFiles/CMakeOutput.log && exit 1
+	-DENABLE_TESTS=OFF \
+	-DPYTHON_DESIRED:STRING=3 ../libcomps/
 
 %make_build
 %if %{with docs}
@@ -122,9 +123,9 @@ make docs
 make pydocs
 %endif
 
-%if %{with python3}
-cd ../py3
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_DESIRED:STRING=3 ../../libcomps/
+%if %{with python2}
+cd ../py2
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DPYTHON_DESIRED:STRING=2 ../../libcomps/
 %make_build
 cd -
 %endif
@@ -133,8 +134,8 @@ cd -
 cd ./build
 make test
 cd -
-%if %{with python3}
-cd ./py3/build
+%if %{with python2}
+cd ./py2/build
 make pytest
 cd -
 %endif
@@ -143,8 +144,8 @@ cd -
 cd ./build
 %make_install
 cd -
-%if %{with python3}
-cd ./py3/build
+%if %{with python2}
+cd ./py2/build
 %make_install
 cd -
 %endif
@@ -165,10 +166,10 @@ cd -
 %doc build/src/python/docs/html
 %endif
 
-%files -n python2-libcomps
-%{python2_sitearch}/libcomps
-
-%if %{with python3}
 %files -n python-libcomps
 %{python3_sitearch}/libcomps
+
+%if %{with python2}
+%files -n python-libcomps
+%{python2_sitearch}/libcomps
 %endif
