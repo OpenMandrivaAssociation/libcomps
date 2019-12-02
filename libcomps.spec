@@ -154,7 +154,7 @@ cd -
 %endif
 
 #(tpg) https://github.com/rpm-software-management/libcomps/pull/61
-sed -i -e 's/Requires/Libs/g' -e 's/Reuires/Libs/g' %{buildrequires}%{_libdir}/pkgconfig/libcomps.pc
+sed -i -e 's/Requires/Libs/g' -e 's/Reuires/Libs/g' %{buildroot}%{_libdir}/pkgconfig/libcomps.pc
 
 %files -n %{libname}
 %{_libdir}/libcomps.so.%{major}.*
