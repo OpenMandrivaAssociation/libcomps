@@ -174,7 +174,7 @@ cd -
 %{python_sitearch}/libcomps-*.egg-info
 %{python_sitearch}/libcomps
 %{python_sitearch}/libcomps/*.so
-%{python_sitearch}/libcomps/*.py[,c]
+%{python_sitearch}/libcomps/*.p[y,c]
 
 %if %{with python2}
 %files -n python2-libcomps
