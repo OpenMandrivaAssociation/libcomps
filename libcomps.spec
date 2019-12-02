@@ -177,7 +177,7 @@ cd -
 %{python_sitearch}/libcomps/*.py[,c]
 
 %if %{with python2}
-%files -n python-libcomps
+%files -n python2-libcomps
 %{python2_sitearch}/libcomps
 %{python2_sitearch}/libcomps-*.egg-info
 %endif
