@@ -159,6 +159,7 @@ cd -
 %files -n %{devname}
 %doc README.md COPYING
 %{_libdir}/libcomps.so
+%{_libdir}/pkgconfig/libcomps.pc
 %{_includedir}/*
 
 %if %{with docs}
@@ -170,9 +171,13 @@ cd -
 %endif
 
 %files -n python-libcomps
-%{python3_sitearch}/libcomps
+%{python_sitearch}/libcomps-*.egg-info
+%{python_sitearch}/libcomps
+%{python_sitearch}/libcomps/*.so
+%{python_sitearch}/libcomps/*.py[,c]
 
 %if %{with python2}
 %files -n python-libcomps
 %{python2_sitearch}/libcomps
+%{python2_sitearch}/libcomps-*.egg-info
 %endif
