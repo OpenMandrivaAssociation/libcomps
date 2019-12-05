@@ -6,7 +6,7 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.12
+Version:	0.1.14
 Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
@@ -152,9 +152,6 @@ cd ./py2/build
 %make_install
 cd -
 %endif
-
-#(tpg) https://github.com/rpm-software-management/libcomps/pull/61
-sed -i -e 's/Requires/Libs/g' -e 's/Reuires/Libs/g' %{buildroot}%{_libdir}/pkgconfig/libcomps.pc
 
 %files -n %{libname}
 %{_libdir}/libcomps.so.%{major}.*
