@@ -154,7 +154,7 @@ cd -
 %endif
 
 %files -n %{libname}
-%{_libdir}/libcomps.so.%{major}.*
+%{_libdir}/libcomps.so.%{major}*
 
 %files -n %{devname}
 %doc README.md COPYING
