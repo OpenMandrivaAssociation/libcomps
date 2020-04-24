@@ -19,7 +19,6 @@ URL:		https://github.com/rpm-software-management/libcomps
 Source0:	https://github.com/rpm-software-management/libcomps/archive/%{name}-%{version}.tar.gz
 # Filters out rpmlint warnings
 Source1:	libcomps.rpmlintrc
-Patch1:		libcomps-0.1.8-compile.patch
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(check)
