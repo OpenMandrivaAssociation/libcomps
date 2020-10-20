@@ -7,7 +7,7 @@
 
 Name:		libcomps
 Version:	0.1.15
-Release:	1
+Release:	2
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
