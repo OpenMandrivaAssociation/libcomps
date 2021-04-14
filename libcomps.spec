@@ -1,4 +1,3 @@
-%bcond_without python2
 %bcond_with docs
 
 %define major 0
@@ -6,8 +5,8 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.15
-Release:	2
+Version:	0.1.16
+Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
@@ -85,48 +84,21 @@ Requires:	%{libname} = %{EVRD}
 %description -n python-libcomps
 Python3 bindings for libcomps library.
 
-%if %{with python2}
-%package -n python2-libcomps
-Summary:	Python 2 bindings for libcomps library
-Group:		Development/Python
-BuildRequires:	pkgconfig(python2)
-%if %{without python2}
-Provides:	python-%{name} = %{EVRD}
-%endif
-Requires:	%{libname} = %{EVRD}
-
-%description -n python2-libcomps
-Python2 bindings for libcomps library.
-%endif
-
 %prep
 %autosetup -n %{name}-%{version} -p1
 
-%if %{with python2}
-rm -rf py2
-mkdir py2
-%endif
-
-%build
 %cmake \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 %if %{without docs}
 	-DENABLE_DOCS=OFF \
 %endif
 	-DENABLE_TESTS=OFF \
-	-DPYTHON_DESIRED:STRING=3 ../libcomps/
+	../libcomps/
 
 %make_build
 %if %{with docs}
 make docs
 make pydocs
-%endif
-
-%if %{with python2}
-cd ../py2
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DPYTHON_DESIRED:STRING=2 ../../libcomps/
-%make_build
-cd -
 %endif
 
 # (tpg) disable tests for now https://github.com/rpm-software-management/libcomps/issues/60
@@ -135,22 +107,10 @@ cd -
 cd ./build
 make test
 cd -
-%if %{with python2}
-cd ./py2/build
-make pytest
-cd -
-%endif
 %endif
 
 %install
-cd ./build
-%make_install
-cd -
-%if %{with python2}
-cd ./py2/build
-%make_install
-cd -
-%endif
+%make_install -C build
 
 %files -n %{libname}
 %{_libdir}/libcomps.so.%{major}*
@@ -174,9 +134,3 @@ cd -
 %{python_sitearch}/libcomps
 %{python_sitearch}/libcomps/*.so
 %{python_sitearch}/libcomps/*.p[y,c]
-
-%if %{with python2}
-%files -n python2-libcomps
-%{python2_sitearch}/libcomps
-%{python2_sitearch}/libcomps-*.egg-info
-%endif
