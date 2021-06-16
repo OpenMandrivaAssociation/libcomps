@@ -1,3 +1,5 @@
+%define _unpackaged_files_terminate_build 0
+
 %bcond_with docs
 
 %define major 0
@@ -5,7 +7,7 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.16
+Version:	0.1.17
 Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
@@ -15,7 +17,7 @@ URL:		https://github.com/rpm-software-management/libcomps
 #  git clone https://github.com/rpm-software-management/libcomps.git libcomps-%%{commit}
 #  git checkout %%{commit}
 #  tar czvf libcomps-%%{version}.tar.gz libcomps-%%{commit}
-Source0:	https://github.com/rpm-software-management/libcomps/archive/%{name}-%{version}.tar.gz
+Source0:	https://github.com/rpm-software-management/libcomps/archive/%{version}/%{name}-%{version}.tar.gz
 # Filters out rpmlint warnings
 Source1:	libcomps.rpmlintrc
 BuildRequires:	pkgconfig(zlib)
@@ -30,7 +32,7 @@ BuildRequires:	graphviz
 %endif
 
 # prevent provides from nonstandard paths:
-%define __provides_exclude_from ^(%{python2_sitearch}/.*\\.so\\|%{python3_sitearch}/.*\\.so)$
+%define __provides_exclude_from ^(%{python3_sitearch}/.*\\.so)$
 
 %description
 Libcomps is library for structure-like manipulation with content of
@@ -130,7 +132,6 @@ cd -
 %endif
 
 %files -n python-libcomps
-%{python_sitearch}/libcomps-*.egg-info
 %{python_sitearch}/libcomps
 %{python_sitearch}/libcomps/*.so
 %{python_sitearch}/libcomps/*.p[y,c]
