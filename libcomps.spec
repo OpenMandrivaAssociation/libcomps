@@ -1,5 +1,3 @@
-%define _unpackaged_files_terminate_build 0
-
 %bcond_with docs
 
 %define major 0
@@ -8,7 +6,7 @@
 
 Name:		libcomps
 Version:	0.1.18
-Release:	1
+Release:	2
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
@@ -79,7 +77,8 @@ Documentation files for python bindings libcomps library.
 %package -n python-libcomps
 Summary:	Python 3 bindings for libcomps library
 Group:		Development/Python
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(python)
+BuildRequires:	python3dist(setuptools)
 Provides:	python3-%{name} = %{EVRD}
 Requires:	%{libname} = %{EVRD}
 
@@ -133,5 +132,4 @@ cd -
 
 %files -n python-libcomps
 %{python_sitearch}/libcomps
-%{python_sitearch}/libcomps/*.so
-%{python_sitearch}/libcomps/*.p[y,c]
+%{python_sitearch}/libcomps*.egg-info
