@@ -5,8 +5,8 @@
 %define devname %mklibname comps -d
 
 Name:		libcomps
-Version:	0.1.21
-Release:	2
+Version:	0.1.23
+Release:	1
 Summary:	Comps XML file manipulation library
 Group:		System/Libraries
 License:	GPLv2+
@@ -18,6 +18,7 @@ URL:		https://github.com/rpm-software-management/libcomps
 Source0:	https://github.com/rpm-software-management/libcomps/archive/%{version}/%{name}-%{version}.tar.gz
 # Filters out rpmlint warnings
 Source1:	libcomps.rpmlintrc
+BuildRequires:	make
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(check)
